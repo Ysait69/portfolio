@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio – Yassine | BTS SIO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --surface: #13171f;
+      --surface2: #1c2130;
+      --border: #262d3e;
+      --accent: #4af0b0;
+      --accent2: #3b7bff;
+      --accent3: #f0a24a;
+      --text: #e8eaf2;
+      --muted: #7a84a0;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ── GRID BG ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(74,240,176,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,240,176,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(11,14,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    .nav-logo span { color: var(--text); }
+
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,240,176,0.12) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,123,255,0.08) 0%, transparent 70%);
+      bottom: 0; left: 200px;
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(52px, 8vw, 110px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      color: var(--text);
+      max-width: 900px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 32px;
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 40px;
+    }
+    .badge {
+      padding: 6px 16px;
+      border-radius: 2px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: 1px solid;
+    }
+    .badge-green { border-color: var(--accent); color: var(--accent); }
+    .badge-blue  { border-color: var(--accent2); color: var(--accent2); }
+    .badge-orange { border-color: var(--accent3); color: var(--accent3); }
+
+    /* ── SECTIONS ── */
+    .sections {
+      position: relative; z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+
+    .section-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 36px;
+    }
+    .section-num {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+    .section-header h2 {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 32px;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(74,240,176,0.3);
+      transform: translateY(-2px);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      border-radius: 4px 0 0 4px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* ── EXPERIENCE ── */
+    .exp-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .exp-card { cursor: default; }
+
+    .exp-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 16px; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .exp-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .exp-company {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .exp-date {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .exp-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .exp-desc li {
+      list-style: none;
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+    .exp-desc li::before {
+      content: '›';
+      position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    /* ── FORMATION ── */
+    .formation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-card { cursor: default; }
+
+    .form-card::before { background: var(--accent2); }
+
+    .form-degree {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-spec {
+      font-size: 12px;
+      color: var(--accent2);
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .form-date {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    /* ── VEILLE TECHNO ── */
+    .veille-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .veille-card::before { background: var(--accent3); }
+
+    .veille-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+    .veille-topic {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .veille-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .veille-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 14px;
+    }
+    .vtag {
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border: 1px solid rgba(240,162,74,0.3);
+      color: var(--accent3);
+      border-radius: 2px;
+    }
+
+    /* ── JOURNAL DE BORD ── */
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .week-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px 26px;
+      min-height: 200px;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: text;
+    }
+    .week-card:hover {
+      border-color: rgba(59,123,255,0.35);
+      transform: translateY(-2px);
+    }
+    .week-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      border-radius: 4px 0 0 4px;
+      background: var(--accent2);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .week-card:hover::before { opacity: 1; }
+
+    .week-num {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+    .week-title {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .week-placeholder {
+      font-size: 12px;
+      color: rgba(122,132,160,0.4);
+      font-style: italic;
+      line-height: 1.8;
+      border-top: 1px dashed var(--border);
+      padding-top: 14px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 40px 48px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    footer strong { color: var(--accent); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 16px; }
+      .hero { padding: 100px 24px 60px; }
+      .hero h1 { font-size: 48px; letter-spacing: -2px; }
+      .sections { padding: 0 24px 80px; }
+      .formation-grid,
+      .veille-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Y<span>assine</span></div>
+    <div class="nav-links">
+      <a href="#experience">Expérience</a>
+      <a href="#formation">Formation</a>
+      <a href="#veille">Veille</a>
+      <a href="#journal">Journal</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <p class="hero-tag">Portfolio étudiant</p>
+    <h1>Yassine<br/><em>B.</em></h1>
+    <p class="hero-sub">
+      Étudiant en <strong>BTS SIO</strong> (Services Informatiques aux Organisations) — passionné par les réseaux, la cybersécurité et les infrastructures cloud.
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-green">BTS SIO</span>
+      <span class="badge badge-blue">SISR</span>
+      <span class="badge badge-orange">Cybersécurité</span>
+    </div>
+  </section>
+
+  <!-- SECTIONS -->
+  <main class="sections">
+
+    <!-- EXPÉRIENCE PROFESSIONNELLE -->
+    <section id="experience" class="reveal">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>Expérience Professionnelle</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="exp-grid">
+
+        <div class="card exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Technicien Informatique – Stage</div>
+              <div class="exp-company">Métropole de Lyon · Service Informatique</div>
+            </div>
+            <span class="exp-date">11/2022 → 01/2023</span>
+          </div>
+          <ul class="exp-desc">
+            <li>Dépannage et installation de parcs informatiques pour les différents services de la Métropole</li>
+            <li>Réalisation de bilans et de rapports d'intervention détaillés</li>
+            <li>Support technique aux utilisateurs internes</li>
+          </ul>
+        </div>
+
+        <div class="card exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Technicien Informatique – Stage (renouvellement)</div>
+              <div class="exp-company">Métropole de Lyon · Service Informatique</div>
+            </div>
+            <span class="exp-date">03/2022 → 05/2022</span>
+          </div>
+          <ul class="exp-desc">
+            <li>Dépannage et installation de parcs informatiques pour les différents services de la Métropole</li>
+            <li>Réalisation de bilans et de rapports d'intervention</li>
+            <li>Suivi et gestion du matériel informatique</li>
+          </ul>
+        </div>
+
+        <div class="card exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Facteur</div>
+              <div class="exp-company">La Poste – Givors</div>
+            </div>
+            <span class="exp-date">11/2024 → 01/2025</span>
+          </div>
+          <ul class="exp-desc">
+            <li>Distribution du courrier et des colis sur une tournée dédiée</li>
+            <li>Gestion des recommandés et des avis de passage</li>
+            <li>Respect des délais et des procédures de service</li>
+          </ul>
+        </div>
+
+        <div class="card exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Manutentionnaire & Caissier</div>
+              <div class="exp-company">Auchan – Caluire</div>
+            </div>
+            <span class="exp-date">11/2022 → 09/2023</span>
+          </div>
+          <ul class="exp-desc">
+            <li>Mise en rayon, réception et gestion des stocks</li>
+            <li>Encaissement des clients et gestion de caisse</li>
+            <li>Travail en équipe dans un environnement dynamique</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FORMATION -->
+    <section id="formation" class="reveal">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Formation</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="formation-grid">
+
+        <div class="card form-card">
+          <div class="form-degree">Bac Pro Systèmes Numériques</div>
+          <div class="form-spec">Option RISC (Réseaux Informatiques et Systèmes Communicants)</div>
+          <span class="form-date">09/2020 → 07/2023</span>
+        </div>
+
+        <div class="card form-card">
+          <div class="form-degree">Mention Complémentaire</div>
+          <div class="form-spec">Cybersécurité des Services Informatiques</div>
+          <span class="form-date">03/2024 → 07/2024</span>
+        </div>
+
+        <div class="card form-card" style="grid-column: 1 / -1;">
+          <div class="form-degree">BTS SIO – En cours</div>
+          <div class="form-spec">Services Informatiques aux Organisations</div>
+          <span class="form-date">En cours</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VEILLE TECHNOLOGIQUE -->
+    <section id="veille" class="reveal">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Veille Technologique</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="veille-grid">
+
+        <div class="card veille-card">
+          <div class="veille-icon">🌐</div>
+          <div class="veille-topic">Réseaux</div>
+          <p class="veille-desc">
+            Suivi des évolutions en matière d'architecture réseau : protocoles modernes (SD-WAN, IPv6), 
+            sécurisation des infrastructures, VPN, pare-feux nouvelle génération et topologies hybrides.
+          </p>
+          <div class="veille-tags">
+            <span class="vtag">SD-WAN</span>
+            <span class="vtag">IPv6</span>
+            <span class="vtag">VPN</span>
+            <span class="vtag">VLAN</span>
+            <span class="vtag">Firewall</span>
+          </div>
+        </div>
+
+        <div class="card veille-card">
+          <div class="veille-icon">☁️</div>
+          <div class="veille-topic">Cloud Computing</div>
+          <p class="veille-desc">
+            Observation des tendances cloud : infrastructures as a service (IaaS), plateformes (PaaS), 
+            virtualisation, conteneurisation (Docker, Kubernetes) et les principaux acteurs comme AWS, Azure et Google Cloud.
+          </p>
+          <div class="veille-tags">
+            <span class="vtag">AWS</span>
+            <span class="vtag">Azure</span>
+            <span class="vtag">Docker</span>
+            <span class="vtag">Kubernetes</span>
+            <span class="vtag">IaaS</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- JOURNAL DE BORD -->
+    <section id="journal" class="reveal">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Journal de Bord</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="journal-grid">
+
+        <div class="week-card">
+          <div class="week-num">Entrée 01</div>
+          <div class="week-title">Semaine 1</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+        <div class="week-card">
+          <div class="week-num">Entrée 02</div>
+          <div class="week-title">Semaine 2</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+        <div class="week-card">
+          <div class="week-num">Entrée 03</div>
+          <div class="week-title">Semaine 3</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+        <div class="week-card">
+          <div class="week-num">Entrée 04</div>
+          <div class="week-title">Semaine 4</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+        <div class="week-card">
+          <div class="week-num">Entrée 05</div>
+          <div class="week-title">Semaine 5</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+        <div class="week-card">
+          <div class="week-num">Entrée 06</div>
+          <div class="week-title">Semaine 6</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+        <div class="week-card">
+          <div class="week-num">Entrée 07</div>
+          <div class="week-title">Semaine 7</div>
+          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>Yassine B.</strong> &nbsp;·&nbsp; BTS SIO
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Stagger children on reveal
+    document.querySelectorAll('.exp-grid, .formation-grid, .veille-grid, .journal-grid').forEach(grid => {
+      Array.from(grid.children).forEach((child, i) => {
+        child.style.transitionDelay = `${i * 80}ms`;
+        child.classList.add('reveal');
+        observer.observe(child);
+      });
+    });
+  </script>
+</body>
+</html>

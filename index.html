@@ -1,792 +1,482 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portfolio – Yassine | BTS SIO</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg: #0b0e14;
-      --surface: #13171f;
-      --surface2: #1c2130;
-      --border: #262d3e;
-      --accent: #4af0b0;
-      --accent2: #3b7bff;
-      --accent3: #f0a24a;
-      --text: #e8eaf2;
-      --muted: #7a84a0;
-      --font-head: 'Syne', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d1117;--panel:#161b22;--panel2:#1c2333;--border:#30363d;
+  --accent:#58a6ff;--green:#3fb950;--orange:#d29922;--red:#f85149;--purple:#bc8cff;
+  --text:#e6edf3;--muted:#8b949e;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0;position:sticky;top:0;z-index:100;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.os-dots{display:flex;gap:6px;}
+.dot{width:12px;height:12px;border-radius:50%;cursor:pointer;transition:opacity 0.2s;}
+.dot:hover{opacity:0.7;}
+.dot.r{background:var(--red);}.dot.y{background:var(--orange);}.dot.g{background:var(--green);}
+.breadcrumb{font-family:var(--mono);font-size:11px;color:var(--muted);}
+.breadcrumb span{color:var(--text);}
+.topbar-right{display:flex;align-items:center;gap:20px;}
+.status-chip{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--green);border:1px solid rgba(63,185,80,0.3);border-radius:3px;padding:3px 10px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.clock{font-family:var(--mono);font-size:11px;color:var(--muted);}
 
-    html { scroll-behavior: smooth; }
+.app{display:flex;flex:1;}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      line-height: 1.7;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+.sidebar{width:200px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 0;}
+.sidebar-section{margin-bottom:24px;}
+.sidebar-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);padding:0 16px 8px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:7px 16px;cursor:pointer;font-size:12px;color:var(--muted);border-left:2px solid transparent;transition:all 0.15s;text-decoration:none;}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03);}
+.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(88,166,255,0.05);}
+.nav-item i{width:14px;text-align:center;font-size:11px;}
+.sidebar-foot{margin-top:auto;padding:16px;}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:8px 10px;}
+.avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#58a6ff,#bc8cff);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0;}
+.user-name{font-size:12px;font-weight:500;color:var(--text);}
+.user-role{font-size:10px;color:var(--muted);}
 
-    /* ── NOISE TEXTURE ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 999;
-    }
+.main{flex:1;padding:24px;overflow-y:auto;}
 
-    /* ── GRID BG ── */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(74,240,176,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(74,240,176,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
+.page-title{font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.page-sub{font-family:var(--mono);font-size:11px;color:var(--muted);}
+.badge-row{display:flex;gap:8px;margin:12px 0 24px;}
+.badge{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid;}
+.b-blue{border-color:rgba(88,166,255,0.4);color:var(--accent);background:rgba(88,166,255,0.07);}
+.b-green{border-color:rgba(63,185,80,0.4);color:var(--green);background:rgba(63,185,80,0.07);}
+.b-orange{border-color:rgba(210,153,34,0.4);color:var(--orange);background:rgba(210,153,34,0.07);}
+.b-purple{border-color:rgba(188,140,255,0.4);color:var(--purple);background:rgba(188,140,255,0.07);}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 48px;
-      background: rgba(11,14,20,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.metric{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:14px 16px;transition:border-color 0.2s;}
+.metric:hover{border-color:rgba(88,166,255,0.3);}
+.metric-label{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.metric-val{font-size:22px;font-weight:600;color:var(--text);}
+.metric-sub{font-size:10px;color:var(--muted);margin-top:2px;}
 
-    .nav-logo {
-      font-family: var(--font-head);
-      font-weight: 800;
-      font-size: 20px;
-      letter-spacing: -0.5px;
-      color: var(--accent);
-    }
-    .nav-logo span { color: var(--text); }
+.section{margin-bottom:28px;}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.section-head::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
+.terminal{background:#0d1117;border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--mono);font-size:10px;line-height:1.8;}
+.t-line{display:flex;align-items:flex-start;gap:6px;}
+.t-prompt{color:var(--green);}
+.t-cmd{color:var(--text);}
+.t-out{color:var(--muted);padding-left:16px;}
+.t-cursor{display:inline-block;width:7px;height:11px;background:var(--accent);vertical-align:middle;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
 
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 120px 48px 80px;
-      overflow: hidden;
-    }
+.timeline{display:flex;flex-direction:column;gap:8px;}
+.tl-item{display:flex;border:1px solid var(--border);border-radius:5px;background:var(--panel);overflow:hidden;transition:border-color 0.15s,transform 0.15s;}
+.tl-item:hover{border-color:rgba(88,166,255,0.4);transform:translateX(2px);}
+.tl-accent{width:3px;flex-shrink:0;}
+.tl-accent.blue{background:var(--accent);}.tl-accent.green{background:var(--green);}.tl-accent.orange{background:var(--orange);}
+.tl-body{padding:12px 16px;flex:1;}
+.tl-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px;}
+.tl-title{font-size:13px;font-weight:500;color:var(--text);}
+.tl-org{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:1px;}
+.tl-date{font-family:var(--mono);font-size:9px;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:2px 8px;white-space:nowrap;flex-shrink:0;}
+.tl-task{font-size:11px;color:var(--muted);padding-left:14px;position:relative;margin-top:2px;}
+.tl-task::before{content:'›';position:absolute;left:2px;color:var(--accent);}
 
-    .hero-glow {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(74,240,176,0.12) 0%, transparent 70%);
-      top: -100px; right: -100px;
-      pointer-events: none;
-    }
-    .hero-glow2 {
-      position: absolute;
-      width: 400px; height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(59,123,255,0.08) 0%, transparent 70%);
-      bottom: 0; left: 200px;
-      pointer-events: none;
-    }
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:16px;transition:border-color 0.15s,transform 0.15s;}
+.card:hover{border-color:rgba(88,166,255,0.3);transform:translateY(-1px);}
+.card-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.card-sub{font-family:var(--mono);font-size:10px;color:var(--purple);margin-bottom:10px;}
+.card-date{font-family:var(--mono);font-size:9px;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:2px 8px;display:inline-block;}
 
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-    }
-    .hero-tag::before {
-      content: '';
-      display: block;
-      width: 32px; height: 1px;
-      background: var(--accent);
-    }
+.veille-card{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:16px;transition:border-color 0.15s,transform 0.15s;}
+.veille-card:hover{border-color:rgba(210,153,34,0.3);transform:translateY(-1px);}
+.veille-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.veille-icon{width:32px;height:32px;border-radius:4px;background:rgba(210,153,34,0.1);border:1px solid rgba(210,153,34,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.veille-title{font-size:13px;font-weight:500;color:var(--text);}
+.veille-desc{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:10px;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid rgba(210,153,34,0.25);color:var(--orange);cursor:default;transition:background 0.15s;}
+.tag:hover{background:rgba(210,153,34,0.1);}
 
-    .hero h1 {
-      font-family: var(--font-head);
-      font-size: clamp(52px, 8vw, 110px);
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -3px;
-      color: var(--text);
-      max-width: 900px;
-    }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
+.journal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.journal-card{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:14px 16px;font-family:var(--mono);cursor:pointer;transition:border-color 0.2s,transform 0.15s;}
+.journal-card:hover{border-color:rgba(63,185,80,0.3);}
+.journal-card.open{border-color:rgba(63,185,80,0.5);}
+.j-num{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.j-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0;}
+.j-title{font-size:13px;font-weight:500;color:var(--text);}
+.j-arrow{font-size:10px;color:var(--muted);transition:transform 0.2s;}
+.journal-card.open .j-arrow{transform:rotate(90deg);}
+.j-body{overflow:hidden;max-height:0;transition:max-height 0.35s ease,padding 0.2s;}
+.journal-card.open .j-body{max-height:300px;padding-top:10px;}
+.j-entry{font-size:10px;color:var(--muted);line-height:1.9;border-top:1px solid var(--border);padding-top:8px;}
+.j-entry li{list-style:none;position:relative;padding-left:12px;}
+.j-entry li::before{content:'$';position:absolute;left:0;color:var(--green);font-size:9px;}
+.j-empty{font-size:10px;color:rgba(139,148,158,0.35);font-style:italic;border-top:1px solid var(--border);padding-top:8px;}
 
-    .hero-sub {
-      margin-top: 32px;
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.8;
-    }
+.contact-card{background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:16px;max-width:400px;}
+.contact-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.contact-avatar{width:36px;height:36px;border-radius:50%;background:rgba(210,153,34,0.15);border:1px solid rgba(210,153,34,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--orange);}
+.contact-role{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);}
+.contact-name{font-size:14px;font-weight:600;color:var(--text);}
+.contact-row{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;color:var(--muted);}
+.contact-row i{width:12px;text-align:center;color:var(--accent);}
+.contact-row a{color:var(--text);text-decoration:none;border-bottom:1px dashed rgba(88,166,255,0.3);transition:color 0.15s;}
+.contact-row a:hover{color:var(--accent);}
 
-    .hero-badges {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      margin-top: 40px;
-    }
-    .badge {
-      padding: 6px 16px;
-      border-radius: 2px;
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      border: 1px solid;
-    }
-    .badge-green { border-color: var(--accent); color: var(--accent); }
-    .badge-blue  { border-color: var(--accent2); color: var(--accent2); }
-    .badge-orange { border-color: var(--accent3); color: var(--accent3); }
-
-    /* ── SECTIONS ── */
-    .sections {
-      position: relative; z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 48px 120px;
-      display: flex;
-      flex-direction: column;
-      gap: 80px;
-    }
-
-    .section-header {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 36px;
-    }
-    .section-num {
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: var(--accent);
-      opacity: 0.6;
-    }
-    .section-header h2 {
-      font-family: var(--font-head);
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--text);
-    }
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── CARDS ── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 28px 32px;
-      position: relative;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .card:hover {
-      border-color: rgba(74,240,176,0.3);
-      transform: translateY(-2px);
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      border-radius: 4px 0 0 4px;
-      background: var(--accent);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .card:hover::before { opacity: 1; }
-
-    /* ── EXPERIENCE ── */
-    .exp-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .exp-card { cursor: default; }
-
-    .exp-header {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      gap: 16px; flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .exp-title {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .exp-company {
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: 1px;
-      margin-top: 2px;
-    }
-
-    .exp-date {
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-      padding: 4px 10px;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-    }
-
-    .exp-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-    .exp-desc li {
-      list-style: none;
-      padding-left: 16px;
-      position: relative;
-      margin-bottom: 4px;
-    }
-    .exp-desc li::before {
-      content: '›';
-      position: absolute; left: 0;
-      color: var(--accent);
-    }
-
-    /* ── FORMATION ── */
-    .formation-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .form-card { cursor: default; }
-
-    .form-card::before { background: var(--accent2); }
-
-    .form-degree {
-      font-family: var(--font-head);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-    .form-spec {
-      font-size: 12px;
-      color: var(--accent2);
-      letter-spacing: 0.5px;
-      margin-bottom: 14px;
-    }
-    .form-date {
-      display: inline-block;
-      font-size: 11px;
-      color: var(--muted);
-      padding: 3px 10px;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-    }
-
-    /* ── VEILLE TECHNO ── */
-    .veille-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .veille-card::before { background: var(--accent3); }
-
-    .veille-icon {
-      font-size: 28px;
-      margin-bottom: 14px;
-    }
-    .veille-topic {
-      font-family: var(--font-head);
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-    .veille-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-    .veille-tags {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      margin-top: 14px;
-    }
-    .vtag {
-      font-size: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border: 1px solid rgba(240,162,74,0.3);
-      color: var(--accent3);
-      border-radius: 2px;
-    }
-
-    /* ── JOURNAL DE BORD ── */
-    .journal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .week-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 24px 26px;
-      min-height: 200px;
-      position: relative;
-      transition: border-color 0.2s, transform 0.2s;
-      cursor: text;
-    }
-    .week-card:hover {
-      border-color: rgba(59,123,255,0.35);
-      transform: translateY(-2px);
-    }
-    .week-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      border-radius: 4px 0 0 4px;
-      background: var(--accent2);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .week-card:hover::before { opacity: 1; }
-
-    .week-num {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 8px;
-    }
-    .week-title {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 14px;
-    }
-    .week-placeholder {
-      font-size: 12px;
-      color: rgba(122,132,160,0.4);
-      font-style: italic;
-      line-height: 1.8;
-      border-top: 1px dashed var(--border);
-      padding-top: 14px;
-    }
-
-    /* ── CONTACT ── */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .contact-card::before {
-      background: var(--accent3);
-    }
-    .contact-role {
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent3);
-      margin-bottom: 6px;
-    }
-    .contact-name {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 14px;
-    }
-    .contact-info {
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .contact-info a {
-      color: var(--text);
-      text-decoration: none;
-      border-bottom: 1px dashed var(--accent3);
-      transition: color 0.2s;
-    }
-    .contact-info a:hover {
-      color: var(--accent3);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 40px 48px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 1px;
-    }
-    footer strong { color: var(--accent); }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
-      .nav-links { gap: 16px; }
-      .hero { padding: 100px 24px 60px; }
-      .hero h1 { font-size: 48px; letter-spacing: -2px; }
-      .sections { padding: 0 24px 80px; }
-      .formation-grid,
-      .veille-grid,
-      .contact-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.visible{opacity:1;transform:none;}
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">Y<span>assine</span></div>
-    <div class="nav-links">
-      <a href="#experience">Expérience</a>
-      <a href="#formation">Formation</a>
-      <a href="#veille">Veille</a>
-      <a href="#journal">Journal</a>
-      <a href="#contact">Contact</a>
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="os-dots">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    </div>
+    <div class="breadcrumb">~/portfolio/<span>yassine</span> — zsh</div>
+  </div>
+  <div class="topbar-right">
+    <div class="status-chip"><span class="status-dot"></span>ONLINE</div>
+    <div class="clock" id="clk">--:--:--</div>
+  </div>
+</div>
+
+<div class="app">
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Navigation</div>
+      <a href="#overview"    class="nav-item active" data-section="overview">   <i class="fa fa-terminal"></i> Overview</a>
+      <a href="#experience"  class="nav-item" data-section="experience">  <i class="fa fa-briefcase"></i> Expérience</a>
+      <a href="#formation"   class="nav-item" data-section="formation">   <i class="fa fa-graduation-cap"></i> Formation</a>
+      <a href="#veille"      class="nav-item" data-section="veille">      <i class="fa fa-rss"></i> Veille tech.</a>
+      <a href="#journal"     class="nav-item" data-section="journal">     <i class="fa fa-list-check"></i> Journal de bord</a>
+      <a href="#contact"     class="nav-item" data-section="contact">     <i class="fa fa-address-card"></i> Contact</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Compétences</div>
+      <a class="nav-item"><i class="fa fa-network-wired"></i> Réseaux</a>
+      <a class="nav-item"><i class="fa fa-shield-halved"></i> Cybersécurité</a>
+      <a class="nav-item"><i class="fa fa-cloud"></i> Cloud</a>
+      <a class="nav-item"><i class="fa fa-server"></i> Infra</a>
+    </div>
+    <div class="sidebar-foot">
+      <div class="user-chip">
+        <div class="avatar">YB</div>
+        <div>
+          <div class="user-name">Yassine B.</div>
+          <div class="user-role">BTS SIO · SISR</div>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-glow"></div>
-    <div class="hero-glow2"></div>
-    <p class="hero-tag">Portfolio étudiant</p>
-    <h1>Yassine<br/><em>B.</em></h1>
-    <p class="hero-sub">
-      Étudiant en <strong>BTS SIO</strong> (Services Informatiques aux Organisations) — passionné par les réseaux, la cybersécurité et les infrastructures cloud.
-    </p>
-    <div class="hero-badges">
-      <span class="badge badge-green">BTS SIO</span>
-      <span class="badge badge-blue">SISR</span>
-      <span class="badge badge-orange">Cybersécurité</span>
-    </div>
-  </section>
+  <main class="main" id="mainContent">
 
-  <!-- SECTIONS -->
-  <main class="sections">
-
-    <!-- EXPÉRIENCE PROFESSIONNELLE -->
-    <section id="experience" class="reveal">
-      <div class="section-header">
-        <span class="section-num">01</span>
-        <h2>Expérience Professionnelle</h2>
-        <div class="section-line"></div>
+    <section id="overview" class="reveal">
+      <div class="page-title">Yassine B. — Portfolio</div>
+      <div class="page-sub" id="typedSub"></div>
+      <div class="badge-row">
+        <span class="badge b-blue">BTS SIO</span>
+        <span class="badge b-green">SISR</span>
+        <span class="badge b-orange">Cybersécurité</span>
+        <span class="badge b-purple">Stage actif</span>
       </div>
-      <div class="exp-grid">
 
-        <div class="card exp-card">
-          <div class="exp-header">
-            <div>
-              <div class="exp-title">Technicien Informatique – Stage</div>
-              <div class="exp-company">Métropole de Lyon · Service Informatique</div>
-            </div>
-            <span class="exp-date">11/2022 → 01/2023</span>
-          </div>
-          <ul class="exp-desc">
-            <li>Dépannage et installation de parcs informatiques pour les différents services de la Métropole</li>
-            <li>Réalisation de bilans et de rapports d'intervention détaillés</li>
-            <li>Support technique aux utilisateurs</li>
-          </ul>
-        </div>
+      <div class="terminal" id="terminalBlock">
+        <div class="t-line"><span class="t-prompt">❯</span><span class="t-cmd" id="tcmd1"></span></div>
+        <div class="t-out" id="tout1" style="display:none;"></div>
+        <div class="t-line" id="tline2" style="display:none;"><span class="t-prompt">❯</span><span class="t-cmd" id="tcmd2"></span></div>
+        <div class="t-out" id="tout2" style="display:none;"></div>
+        <div class="t-line" id="tline3" style="display:none;"><span class="t-prompt">❯</span><span class="t-cmd" id="tcmd3"></span></div>
+        <div class="t-out" id="tout3" style="display:none;"></div>
+        <div class="t-line" id="tlinecursor" style="display:none;"><span class="t-prompt">❯</span><span class="t-cursor"></span></div>
+      </div>
 
-        <div class="card exp-card">
-          <div class="exp-header">
-            <div>
-              <div class="exp-title">Technicien Informatique – Stage</div>
-              <div class="exp-company">Métropole de Lyon · Service Informatique</div>
-            </div>
-            <span class="exp-date">03/2022 → 05/2022</span>
-          </div>
-          <ul class="exp-desc">
-            <li>Dépannage et installation de parcs informatiques pour les différents services de la Métropole</li>
-            <li>Réalisation de bilans et de rapports d'intervention</li>
-            <li>Suivi et gestion du matériel informatique</li>
-          </ul>
-        </div>
-
-        <div class="card exp-card">
-          <div class="exp-header">
-            <div>
-              <div class="exp-title">Facteur</div>
-              <div class="exp-company">La Poste – Givors</div>
-            </div>
-            <span class="exp-date">11/2024 → 01/2025</span>
-          </div>
-          <ul class="exp-desc">
-            <li>Distribution du courrier et des colis sur une tournée dédiée</li>
-            <li>Gestion des recommandés et des avis de passage</li>
-            <li>Respect des délais et des procédures de service</li>
-          </ul>
-        </div>
-
-        <div class="card exp-card">
-          <div class="exp-header">
-            <div>
-              <div class="exp-title">Manutentionnaire & Caissier</div>
-              <div class="exp-company">Auchan – Caluire et Cuire</div>
-            </div>
-            <span class="exp-date">11/2022 → 09/2023</span>
-          </div>
-          <ul class="exp-desc">
-            <li>Mise en rayon, réception et gestion des stocks</li>
-            <li>Encaissement des clients et gestion de caisse</li>
-            <li>Travail en équipe dans un environnement dynamique</li>
-          </ul>
-        </div>
-
+      <div class="metrics" style="margin-top:20px;">
+        <div class="metric"><div class="metric-label">Expérience</div><div class="metric-val" data-count="4">0</div><div class="metric-sub">postes & stages</div></div>
+        <div class="metric"><div class="metric-label">Formations</div><div class="metric-val" data-count="3">0</div><div class="metric-sub">diplômes obtenus / en cours</div></div>
+        <div class="metric"><div class="metric-label">Semaines de stage</div><div class="metric-val" data-count="7">0</div><div class="metric-sub" style="color:var(--green);">● journal actif</div></div>
+        <div class="metric"><div class="metric-label">Spécialité</div><div class="metric-val" style="font-size:16px;margin-top:4px;">SISR</div><div class="metric-sub">réseaux & systèmes</div></div>
       </div>
     </section>
 
-    <!-- FORMATION -->
-    <section id="formation" class="reveal">
-      <div class="section-header">
-        <span class="section-num">02</span>
-        <h2>Formation</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="formation-grid">
-
-        <div class="card form-card">
-          <div class="form-degree">Bac Pro Systèmes Numériques</div>
-          <div class="form-spec">Option RISC (Réseaux Informatiques et Systèmes Communicants)</div>
-          <span class="form-date">09/2020 → 07/2023</span>
+    <section id="experience" class="section reveal">
+      <div class="section-head">01 · expérience professionnelle</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-accent blue"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <div><div class="tl-title">Technicien Informatique — Stage</div><div class="tl-org">Métropole de Lyon · Service Informatique</div></div>
+              <span class="tl-date">11/2022 → 01/2023</span>
+            </div>
+            <div class="tl-task">Dépannage et installation de parcs informatiques</div>
+            <div class="tl-task">Réalisation de bilans et rapports d'intervention</div>
+            <div class="tl-task">Support technique aux utilisateurs</div>
+          </div>
         </div>
-
-        <div class="card form-card">
-          <div class="form-degree">Mention Complémentaire</div>
-          <div class="form-spec">Cybersécurité des Services Informatiques</div>
-          <span class="form-date">03/2024 → 07/2024</span>
+        <div class="tl-item">
+          <div class="tl-accent blue"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <div><div class="tl-title">Technicien Informatique — Stage</div><div class="tl-org">Métropole de Lyon · Service Informatique</div></div>
+              <span class="tl-date">03/2022 → 05/2022</span>
+            </div>
+            <div class="tl-task">Dépannage et installation de parcs informatiques</div>
+            <div class="tl-task">Réalisation de bilans et rapports d'intervention</div>
+            <div class="tl-task">Suivi et gestion du matériel informatique</div>
+          </div>
         </div>
-
-        <div class="card form-card" style="grid-column: 1 / -1;">
-          <div class="form-degree">BTS SIO – En cours</div>
-          <div class="form-spec">Services Informatiques aux Organisations</div>
-          <span class="form-date">En cours</span>
+        <div class="tl-item">
+          <div class="tl-accent orange"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <div><div class="tl-title">Facteur</div><div class="tl-org" style="color:var(--orange)">La Poste – Givors</div></div>
+              <span class="tl-date">11/2024 → 01/2025</span>
+            </div>
+            <div class="tl-task">Distribution du courrier et colis sur tournée dédiée</div>
+            <div class="tl-task">Gestion des recommandés et avis de passage</div>
+            <div class="tl-task">Respect des délais et procédures de service</div>
+          </div>
         </div>
-
+        <div class="tl-item">
+          <div class="tl-accent green"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <div><div class="tl-title">Manutentionnaire & Caissier</div><div class="tl-org" style="color:var(--green)">Auchan – Caluire et Cuire</div></div>
+              <span class="tl-date">11/2022 → 09/2023</span>
+            </div>
+            <div class="tl-task">Mise en rayon, réception et gestion des stocks</div>
+            <div class="tl-task">Encaissement et gestion de caisse</div>
+            <div class="tl-task">Travail en équipe dans un environnement dynamique</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- VEILLE TECHNOLOGIQUE -->
-    <section id="veille" class="reveal">
-      <div class="section-header">
-        <span class="section-num">03</span>
-        <h2>Veille Technologique</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="veille-grid">
-
-        <div class="card veille-card">
-          <div class="veille-icon">🌐</div>
-          <div class="veille-topic">Réseaux</div>
-          <p class="veille-desc">
-            Suivi des évolutions en matière d'architecture réseau : protocoles modernes (SD-WAN, IPv6), 
-            sécurisation des infrastructures, VPN, pare-feux nouvelle génération et topologies hybrides.
-          </p>
-          <div class="veille-tags">
-            <span class="vtag">SD-WAN</span>
-            <span class="vtag">IPv6</span>
-            <span class="vtag">VPN</span>
-            <span class="vtag">VLAN</span>
-            <span class="vtag">Firewall</span>
-          </div>
+    <section id="formation" class="section reveal">
+      <div class="section-head">02 · formation</div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Bac Pro Systèmes Numériques</div>
+          <div class="card-sub">Option RISC — Réseaux Informatiques & Systèmes Communicants</div>
+          <span class="card-date">09/2020 → 07/2023</span>
         </div>
-
-        <div class="card veille-card">
-          <div class="veille-icon">☁️</div>
-          <div class="veille-topic">Cloud Computing</div>
-          <p class="veille-desc">
-            Observation des tendances cloud : infrastructures as a service (IaaS), plateformes (PaaS), 
-            virtualisation, conteneurisation (Docker, Kubernetes) et les principaux acteurs comme AWS, Azure et Google Cloud.
-          </p>
-          <div class="veille-tags">
-            <span class="vtag">AWS</span>
-            <span class="vtag">Azure</span>
-            <span class="vtag">Docker</span>
-            <span class="vtag">Kubernetes</span>
-            <span class="vtag">IaaS</span>
-          </div>
+        <div class="card">
+          <div class="card-title">Mention Complémentaire</div>
+          <div class="card-sub" style="color:var(--orange)">Cybersécurité des Services Informatiques</div>
+          <span class="card-date">03/2024 → 07/2024</span>
         </div>
-
+        <div class="card" style="grid-column:1/-1;border-color:rgba(88,166,255,0.3);">
+          <div style="margin-bottom:6px;"><span style="font-family:var(--mono);font-size:9px;background:rgba(88,166,255,0.12);color:var(--accent);border:1px solid rgba(88,166,255,0.3);border-radius:3px;padding:2px 8px;">EN COURS</span></div>
+          <div class="card-title">BTS SIO — Services Informatiques aux Organisations</div>
+          <div class="card-sub">Spécialisation SISR · Réseaux & Systèmes</div>
+          <span class="card-date">En cours</span>
+        </div>
       </div>
     </section>
 
-    <!-- JOURNAL DE BORD -->
-    <section id="journal" class="reveal">
-      <div class="section-header">
-        <span class="section-num">04</span>
-        <h2>Journal de Bord</h2>
-        <div class="section-line"></div>
+    <section id="veille" class="section reveal">
+      <div class="section-head">03 · veille technologique</div>
+      <div class="grid2">
+        <div class="veille-card">
+          <div class="veille-head">
+            <div class="veille-icon"><i class="fa fa-network-wired" style="color:var(--orange);font-size:13px;"></i></div>
+            <div class="veille-title">Réseaux</div>
+          </div>
+          <p class="veille-desc">Suivi des évolutions en architecture réseau : protocoles modernes (SD-WAN, IPv6), sécurisation des infrastructures, VPN, pare-feux NGFW et topologies hybrides.</p>
+          <div class="tags">
+            <span class="tag">SD-WAN</span><span class="tag">IPv6</span><span class="tag">VPN</span><span class="tag">VLAN</span><span class="tag">Firewall</span>
+          </div>
+        </div>
+        <div class="veille-card">
+          <div class="veille-head">
+            <div class="veille-icon"><i class="fa fa-cloud" style="color:var(--orange);font-size:13px;"></i></div>
+            <div class="veille-title">Cloud Computing</div>
+          </div>
+          <p class="veille-desc">Tendances cloud : IaaS, PaaS, virtualisation, conteneurisation (Docker, Kubernetes) et principaux acteurs AWS, Azure, Google Cloud.</p>
+          <div class="tags">
+            <span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">IaaS</span>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <section id="journal" class="section reveal">
+      <div class="section-head">04 · journal de bord — <span style="color:var(--muted);font-size:9px;" id="journalHint">cliquer pour développer</span></div>
       <div class="journal-grid">
-
-        <div class="week-card">
-          <div class="week-num">Entrée 01</div>
-          <div class="week-title">Semaine 1</div>
-          <p class=>• présentation a toute l'équipe <br>
-          • Création de badge et d'une séssion <br>
-          • Intervention sur des écoles pour remplacer et faire des mise a jours <br>
-          • Identification de toute les prises RJ45 et la mise au propre des baies  <br>
-          • Dépannage d'une borne wifi <br>
-          • Migration de poste de Windows 10 à 11 <br>
-          </p>
+        <div class="journal-card" data-week="1">
+          <div class="j-num">Entrée 01</div>
+          <div class="j-header"><div class="j-title">Semaine 1</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><ul class="j-entry">
+            <li>Présentation à toute l'équipe</li>
+            <li>Création de badge et d'une session</li>
+            <li>Intervention sur des écoles — remplacements & MAJ</li>
+            <li>Identification des prises RJ45 et mise au propre des baies</li>
+            <li>Dépannage d'une borne Wi-Fi</li>
+            <li>Migration de postes Windows 10 → 11</li>
+          </ul></div>
         </div>
-
-        <div class="week-card">
-          <div class="week-num">Entrée 02</div>
-          <div class="week-title">Semaine 2</div>
-          <p class=>• Création d’image système et déploiement de cette image sur d’anciens postes de travail <br>
-          • Déménagement de postes de travail <br> 
-          • Intervention sur une panne de caméra de surveillance de la ville au commissariat <br>
-          • Dépannage d’alarmes <br>
-          • Configuration d’un switch <br>
-          • Installation et paramétrage d’imprimantes dans des écoles <br> 
-          </p>
+        <div class="journal-card" data-week="2">
+          <div class="j-num">Entrée 02</div>
+          <div class="j-header"><div class="j-title">Semaine 2</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><ul class="j-entry">
+            <li>Création d'image système + déploiement sur anciens postes</li>
+            <li>Déménagement de postes de travail</li>
+            <li>Intervention panne caméra surveillance au commissariat</li>
+            <li>Dépannage d'alarmes</li>
+            <li>Configuration d'un switch</li>
+            <li>Installation & paramétrage d'imprimantes en école</li>
+          </ul></div>
         </div>
-
-        <div class="week-card">
-          <div class="week-num">Entrée 03</div>
-          <div class="week-title">Semaine 3</div>
-          <p class=>
-          • Intervention sur différente des pannes matériel ou logiciel <br>
-          • Installation et paramétrage de système d'alarme <br>
-          • Gestion des tickets GLPI (les classer par ordre de priorité) <br>
-          • Déménagement de postes de travail <br>
-          • Installation de bornes wifi <br>
-          </p>
+        <div class="journal-card" data-week="3">
+          <div class="j-num">Entrée 03</div>
+          <div class="j-header"><div class="j-title">Semaine 3</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><ul class="j-entry">
+            <li>Interventions pannes matériel et logiciel</li>
+            <li>Installation et paramétrage de systèmes d'alarme</li>
+            <li>Gestion des tickets GLPI (classification par priorité)</li>
+            <li>Déménagement de postes de travail</li>
+            <li>Installation de bornes Wi-Fi</li>
+          </ul></div>
         </div>
-
-        <div class="week-card">
-          <div class="week-num">Entrée 04</div>
-          <div class="week-title">Semaine 4</div>
-          <p class=>• Remplacement d'un SSD sur un pc portable <br> 
-          • Gestion des tickets GLPI <br>
-          • Installation un switch <br>
-          • Migration de poste de Windows 10 à 11 <br>
-          • Mise au propre des baies de brassages <br>
-          </p>
+        <div class="journal-card" data-week="4">
+          <div class="j-num">Entrée 04</div>
+          <div class="j-header"><div class="j-title">Semaine 4</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><ul class="j-entry">
+            <li>Remplacement SSD sur PC portable</li>
+            <li>Gestion des tickets GLPI</li>
+            <li>Installation d'un switch</li>
+            <li>Migration de postes Windows 10 → 11</li>
+            <li>Mise au propre des baies de brassage</li>
+          </ul></div>
         </div>
-
-        <div class="week-card">
-          <div class="week-num">Entrée 05</div>
-          <div class="week-title">Semaine 5</div>
-          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        <div class="journal-card" data-week="5">
+          <div class="j-num">Entrée 05</div>
+          <div class="j-header"><div class="j-title">Semaine 5</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><div class="j-empty">// Notes à renseigner…</div></div>
         </div>
-
-        <div class="week-card">
-          <div class="week-num">Entrée 06</div>
-          <div class="week-title">Semaine 6</div>
-          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        <div class="journal-card" data-week="6">
+          <div class="j-num">Entrée 06</div>
+          <div class="j-header"><div class="j-title">Semaine 6</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><div class="j-empty">// Notes à renseigner…</div></div>
         </div>
-
-        <div class="week-card">
-          <div class="week-num">Entrée 07</div>
-          <div class="week-title">Semaine 7</div>
-          <p class="week-placeholder">Notes, activités et apprentissages de la semaine à renseigner…</p>
+        <div class="journal-card" style="grid-column:1/-1;" data-week="7">
+          <div class="j-num">Entrée 07</div>
+          <div class="j-header"><div class="j-title">Semaine 7</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><div class="j-empty">// Notes à renseigner…</div></div>
         </div>
-
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="reveal">
-      <div class="section-header">
-        <span class="section-num">05</span>
-        <h2>Contact</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="contact-grid">
-
-        
-        <div class="card contact-card">
-          <div class="contact-role">Maître de stage</div>
-          <div class="contact-name">Yanis Kerroua</div>
-          <div class="contact-info">
-            Téléphone : <a href="tel:0688237117">06-88-23-71-17</a><br/>
-            Email : <a href="mailto:yanis.kerroua@ville-givors.fr">yanis.kerroua@ville-givors.fr</a>
+    <section id="contact" class="section reveal">
+      <div class="section-head">05 · contact</div>
+      <div class="contact-card">
+        <div class="contact-head">
+          <div class="contact-avatar">YK</div>
+          <div>
+            <div class="contact-role">Maître de stage</div>
+            <div class="contact-name">Yanis Kerroua</div>
           </div>
         </div>
-
+        <div class="contact-row"><i class="fa fa-phone"></i><a href="tel:0688237117">06 88 23 71 17</a></div>
+        <div class="contact-row"><i class="fa fa-envelope"></i><a href="mailto:yanis.kerroua@ville-givors.fr">yanis.kerroua@ville-givors.fr</a></div>
       </div>
     </section>
 
   </main>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <strong>Yassine B.</strong> &nbsp;·&nbsp; BTS SIO
-  </footer>
+<script>
+/* ── HORLOGE ── */
+function pad(n){return String(n).padStart(2,'0');}
+function tick(){const d=new Date();document.getElementById('clk').textContent=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());}
+tick();setInterval(tick,1000);
 
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    reveals.forEach(r => observer.observe(r));
+/* ── NAV ACTIVE ── */
+document.querySelectorAll('.nav-item[data-section]').forEach(item=>{
+  item.addEventListener('click',function(){
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
 
-    // Stagger children on reveal
-    document.querySelectorAll('.exp-grid, .formation-grid, .veille-grid, .journal-grid, .contact-grid').forEach(grid => {
-      Array.from(grid.children).forEach((child, i) => {
-        child.style.transitionDelay = `${i * 80}ms`;
-        child.classList.add('reveal');
-        observer.observe(child);
+/* ── SCROLL REVEAL ── */
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* ── TYPER HERO SUBTITLE ── */
+const subText='Étudiant BTS SIO — spécialisation SISR';
+let si=0;
+function typeHero(){
+  const el=document.getElementById('typedSub');
+  if(si<=subText.length){el.textContent=subText.slice(0,si)+(si<subText.length?'▌':'');si++;setTimeout(typeHero,45);}
+}
+setTimeout(typeHero,400);
+
+/* ── TERMINAL ANIMATION ── */
+function typeIn(elId,text,delay,cb){
+  const el=document.getElementById(elId);let i=0;
+  function step(){if(i<=text.length){el.textContent=text.slice(0,i);i++;setTimeout(step,38);}else if(cb)setTimeout(cb,200);}
+  setTimeout(step,delay);
+}
+setTimeout(()=>{
+  typeIn('tcmd1','whoami',0,()=>{
+    document.getElementById('tout1').style.display='';
+    document.getElementById('tout1').textContent='Étudiant BTS SIO — spécialisation SISR (réseaux & systèmes)';
+    document.getElementById('tline2').style.display='';
+    typeIn('tcmd2','cat profil.txt',0,()=>{
+      document.getElementById('tout2').style.display='';
+      document.getElementById('tout2').textContent='Passionné par les réseaux, la cybersécurité et les infrastructures cloud.';
+      document.getElementById('tline3').style.display='';
+      typeIn('tcmd3','ls ./formations/',0,()=>{
+        document.getElementById('tout3').style.display='';
+        document.getElementById('tout3').textContent='bac-pro-RISC/   MC-cybersecurite/   BTS-SIO-SISR/ [en cours]';
+        document.getElementById('tlinecursor').style.display='';
       });
     });
-  </script>
+  });
+},600);
+
+/* ── COUNT-UP METRICS ── */
+document.querySelectorAll('.metric-val[data-count]').forEach(el=>{
+  const target=parseInt(el.dataset.count);
+  let cur=0;
+  const step=()=>{if(cur<target){cur++;el.textContent=cur;setTimeout(step,120);}};
+  setTimeout(step,800);
+});
+
+/* ── JOURNAL ACCORDION ── */
+document.querySelectorAll('.journal-card').forEach(card=>{
+  card.addEventListener('click',function(){
+    const wasOpen=this.classList.contains('open');
+    document.querySelectorAll('.journal-card').forEach(c=>c.classList.remove('open'));
+    if(!wasOpen)this.classList.add('open');
+  });
+});
+
+/* ── NAV HIGHLIGHT ON SCROLL ── */
+const sections=['overview','experience','formation','veille','journal','contact'];
+const scrollSpy=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      document.querySelectorAll('.nav-item[data-section]').forEach(n=>{
+        n.classList.toggle('active',n.dataset.section===id);
+      });
+    }
+  });
+},{threshold:0.35});
+sections.forEach(id=>{const el=document.getElementById(id);if(el)scrollSpy.observe(el);});
+</script>
 </body>
 </html>

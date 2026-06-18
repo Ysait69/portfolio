@@ -433,13 +433,13 @@ function typeIn(elId,text,delay,cb){
   setTimeout(step,delay);
 }
 setTimeout(()=>{
-  typeIn('tcmd1','whoami',0,()=>{
+  typeIn('tcmd1','profil',0,()=>{
     document.getElementById('tout1').style.display='';
     document.getElementById('tout1').textContent='Étudiant BTS SIO — spécialisation SISR (réseaux & systèmes)';
     document.getElementById('tline2').style.display='';
     typeIn('tcmd2','cat profil.txt',0,()=>{
       document.getElementById('tout2').style.display='';
-      document.getElementById('tout2').textContent='Passionné par les réseaux, la cybersécurité et les infrastructures cloud.';
+      document.getElementById('tout2').textContent='Passionné par les réseaux et la cybersécurité.';
       document.getElementById('tline3').style.display='';
       typeIn('tcmd3','ls ./formations/',0,()=>{
         document.getElementById('tout3').style.display='';

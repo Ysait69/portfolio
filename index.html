@@ -372,16 +372,27 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
             <li>Installation de switch</li>
             </ul></div>
         </div>
-        <div class="journal-card" data-week="6">
+        <div class="journal-card" data-week="5">
           <div class="j-num">Entrée 06</div>
-          <div class="j-header"><div class="j-title">Semaine 6</div><span class="j-arrow">›</span></div>
-          <div class="j-body"><div class="j-empty">// Notes à renseigner…</div></div>
+          <div class="j-header"><div class="j-title">Semaine 5</div><span class="j-arrow">›</span></div>
+          <div class="j-body"><ul class="j-entry">
+            <li>Dépannage d'une borne Wi-Fi</li>
+            <li>Migration de postes Windows 10 → 11</li>
+            <li>Remplacement SSD sur PC portable</li>
+            <li>Gestion des tickets GLPI</li>
+            <li>Installation de borne Wi-Fi</li>
+            </ul></div>
         </div>
-        <div class="journal-card" style="grid-column:1/-1;" data-week="7">
-          <div class="j-num">Entrée 07</div>
+         <div class="journal-card" data-week="5">
+          <div class="j-num">Entrée 06</div>
           <div class="j-header"><div class="j-title">Semaine 7</div><span class="j-arrow">›</span></div>
-          <div class="j-body"><div class="j-empty">// Notes à renseigner…</div></div>
-        </div>
+          <div class="j-body"><ul class="j-entry">
+            <li>Déménagement des locaux</li>
+            <li>Migration de postes Windows 10 → 11</li>
+            <li>Remplacement SSD sur PC portable</li>
+            <li>Gestion des tickets GLPI</li>
+            <li>Récupération des tablette auprès des écoles</li>
+            </ul></div>
       </div>
     </section>
 
@@ -443,11 +454,11 @@ setTimeout(()=>{
     document.getElementById('tout1').style.display='';
     document.getElementById('tout1').textContent='Étudiant BTS SIO — spécialisation SISR (réseaux & systèmes)';
     document.getElementById('tline2').style.display='';
-    typeIn('tcmd2','cat profil.txt',0,()=>{
+    typeIn('tcmd2','passion',0,()=>{
       document.getElementById('tout2').style.display='';
       document.getElementById('tout2').textContent='Passionné par les réseaux et la cybersécurité.';
       document.getElementById('tline3').style.display='';
-      typeIn('tcmd3','ls ./formations/',0,()=>{
+      typeIn('tcmd3','formations',0,()=>{
         document.getElementById('tout3').style.display='';
         document.getElementById('tout3').textContent='bac-pro-SN/   MC-cybersecurite/   BTS-SIO-SISR/ [en cours]';
         document.getElementById('tlinecursor').style.display='';
